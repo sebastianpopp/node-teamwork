@@ -11,10 +11,24 @@ const Teamwork = class Teamwork {
         return this._request('GET', '/tasks.json', options);
     }
 
-    _request(method, path, options) {
+    addComment(taskId, data = {}) {
+        return this._request('POST', '/tasks/'+taskId+'/comments.json', null, data);
+    }
+
+    completeTask(taskId) {
+        return this._request('PUT', '/tasks/'+taskId+'/complete.json', null, null);
+    }
+
+    addTimeEntry(taskId, data = {}) {
+        return this._request('POST', '/tasks/'+taskId+'/time_entries.json', null, data);
+    }
+
+    _request(method, path, query = null, data = {}) {
+        var uri = this.endpoint + path;
+        if(query != null) uri += '?' + querystring.stringify(query);
         return request({
             method: method,
-            uri: this.endpoint + path + '?' + querystring.stringify(options),
+            uri: uri,
             headers: [
                 'Accept: application/json',
                 'Content-Type: application/json'
@@ -22,8 +36,9 @@ const Teamwork = class Teamwork {
             'auth': {
                 'user': this.apiKey
             },
-            json: true,
-            body: JSON.stringify(options)
+            json: data,
         });
     }
 }
+
+module.exports = Teamwork;
