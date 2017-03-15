@@ -7,6 +7,10 @@ const Teamwork = class Teamwork {
         this.apiKey = apiKey;
     }
 
+    me() {
+        return this._request('GET', '/me.json');
+    }
+
     tasks(options = {}) {
         return this._request('GET', '/tasks.json', options);
     }
