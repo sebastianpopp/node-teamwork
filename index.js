@@ -15,6 +15,10 @@ const Teamwork = class Teamwork {
         return this._request('GET', '/tasks.json', options);
     }
 
+    comments(taskId, options = {}) {
+        return this._request('GET', '/tasks/'+taskId+'/comments.json', options);
+    }
+
     addComment(taskId, data = {}) {
         return this._request('POST', '/tasks/'+taskId+'/comments.json', null, data);
     }
